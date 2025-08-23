@@ -4,6 +4,7 @@
   pre_tasks:
 
   - name: install updates for fedora
+    tags: always
     ansible.builtin.dnf:
       use_backend: dnf4
       update_only: yes
@@ -11,6 +12,7 @@
     when: ansible_distribution == "Fedora"
 
   - name: install updates for ubuntu
+    tags: always
     ansible.builtin.apt:
       upgrade: dist
       update_cache: yes
@@ -22,6 +24,7 @@
   tasks:
 
   - name: install apache on the web servers
+    tags: apache,ubuntu
     ansible.builtin.apt:
       name:
         - apache2
@@ -30,6 +33,7 @@
 
 
 - hosts: db_servers
+  tags: db,fedora
   become: true
   tasks:
 
