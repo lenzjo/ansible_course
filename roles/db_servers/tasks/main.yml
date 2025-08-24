@@ -1,0 +1,8 @@
+---
+- name: install maria db on db servers
+  ansible.builtin.dnf:
+    use_backend: dnf4
+    name: mariadb
+    state: latest
+  when: ansible_distribution == "Fedora"
+

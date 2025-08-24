@@ -1,0 +1,31 @@
+---
+- name: install apache on ubuntu web servers
+  tags: apache,ubuntu
+  ansible.builtin.apt:
+    name:
+      - apache2
+      - libapache2-mod-php
+  when: ansible_distribution == "Ubuntu"
+
+- name: install httpd on fedora web servers
+  tags: apache,fedora
+  ansible.builtin.dnf:
+    use_backend: dnf4
+    name: httpd
+  when: ansible_distribution == "Fedora"
+
+- name: ensure apache is running
+  tags: apache,ubuntu
+  ansible.builtin.service:
+    name: apache2
+    state: started
+  when: ansible_distribution == "Ubuntu"
+
+- name: ensure httpd is running
+  tags: apache,fedora
+  ansible.builtin.service:
+    name: httpd
+    state: started
+  when: ansible_distribution == "Fedora"
+
+

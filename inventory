@@ -1,6 +1,5 @@
 [web_servers]
 ubuntu-server
-fedora-server
 
 [db_servers]
 fedora-server
