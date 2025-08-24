@@ -15,17 +15,29 @@
   when: ansible_distribution == "Fedora"
 
 - name: ensure apache is running
-  tags: apache,ubuntu
+  tags: apache
   ansible.builtin.service:
-    name: apache2
+    name: "{{ apache_service }}"
     state: started
   when: ansible_distribution == "Ubuntu"
 
 - name: ensure httpd is running
   tags: apache,fedora
-  ansible.builtin.service:
-    name: httpd
-    state: started
+  ansible.builtin.lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin clive@gmail.com
   when: ansible_distribution == "Fedora"
+  notify: restart_apache
+
+
+- name: copy web page for site
+  tags: apache
+  ansible.builtin.copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+
 
 
